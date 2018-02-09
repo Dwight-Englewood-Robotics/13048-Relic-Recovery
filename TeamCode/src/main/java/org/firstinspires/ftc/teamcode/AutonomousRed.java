@@ -87,9 +87,10 @@ public class AutonomousRed extends OpMode {
                 if(timer.milliseconds() > 5000) {
                     commandNum = 1;
                     timer.reset();
+                    robot.upColor();
                     break;
                 }
-                telemetry.addData("Waiting", true);
+                telemetry.addData("Red? ",  red);
                 break;
             case 1:
                 if(!red){
@@ -107,7 +108,7 @@ public class AutonomousRed extends OpMode {
                 else{
                     telemetry.addData("Blue: ", true);
                     telemetry.update();
-                    if(robot.adjustHeading(45)){
+                    if(robot.adjustHeading(45)) {
                         commandNum = 2;
                         timer.reset();
                         break;
@@ -115,6 +116,7 @@ public class AutonomousRed extends OpMode {
                 }
                 break;
             case 2:
+
                 if(timer.milliseconds() > 1000){
                     commandNum = 3;
                     timer.reset();
