@@ -20,7 +20,7 @@ public class Bot {
     static BNO055IMU gyro;
     BNO055IMU.Parameters parameters;
     Orientation angles;
-    Double powerModifier = 0.05;
+    Double powerModifier = 0.02;
     ModernRoboticsI2cColorSensor colorSensor;
     public Bot()
     {}
@@ -182,11 +182,28 @@ public class Bot {
     }
     */
 
-    public void adjustHeading(int targetHeading) {
-      double  headingError = targetHeading + gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-      double  driveScale = headingError * powerModifier;
+    public boolean adjustHeading(int targetHeading) {
+        double curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        if (Math.abs(Math.abs(targetHeading) - Math.abs(curHeading)) < .5) {
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+            return true;
+        }
+        double headingError;
+        if (targetHeading == 0) {
+            headingError = curHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
+        }
+        else
+            headingError = targetHeading + curHeading;
+        double  driveScale = headingError * powerModifier;
+        if (Math.abs(driveScale) < .06) {
+            driveScale = .06 * (driveScale < 0 ? -1 : 1);
+        }
         Range.clip(driveScale, -1, 1);
         turn(driveScale);
+        return false;
     }
     public void testServos(Telemetry tele){
         tele.addData("Claw: ", lClaw.getPosition());

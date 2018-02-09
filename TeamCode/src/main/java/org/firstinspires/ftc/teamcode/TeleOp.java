@@ -86,7 +86,7 @@ public class TeleOp extends OpMode {
             robot.turn(0.0);
         }
         else {
-            robot.drive((double) -gamepad1.left_stick_y, (double) gamepad1.left_stick_x, (double) gamepad1.right_stick_x);
+            robot.drive((double) -gamepad1.left_stick_y, (double) gamepad1.left_stick_x, (double) (0.5 * gamepad1.right_stick_x));
             telemetry.addData("drive: ", true);
             telemetry.update();
         }
