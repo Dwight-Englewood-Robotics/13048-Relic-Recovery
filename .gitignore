@@ -1,6 +1,5 @@
 build/*
 TeamCode/build/*
-FtcRobotController/*
 .idea/*
 .gradle/
 RelicRecovery.iml
