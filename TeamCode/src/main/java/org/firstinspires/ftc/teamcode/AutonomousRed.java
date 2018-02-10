@@ -64,7 +64,7 @@ public class AutonomousRed extends OpMode {
         robot.init(hardwareMap, telemetry, false);
 //        robot.resetServo();
 //        robot.resetEncoders();
-        telemetry.addData("Status", "Initialized");
+        //telemetry.addData("Status", "Initialized");
     }
 
     @Override
@@ -83,11 +83,12 @@ public class AutonomousRed extends OpMode {
     public void loop() {
         switch(commandNum) {
             case 0:
-                red = robot.isRed();
+
                 if(timer.milliseconds() > 5000) {
                     commandNum = 1;
                     timer.reset();
-                    robot.upColor();
+                    //robot.upColor();
+                    red = robot.isRed();
                     break;
                 }
                 telemetry.addData("Red? ",  red);
@@ -98,9 +99,11 @@ public class AutonomousRed extends OpMode {
                     telemetry.update();
                     if(timer.milliseconds() < 1000){
                         robot.strafe(1.0);
+                        robot.upColor();
                     }
                     else {
                         robot.strafe(0);
+                        robot.upColor();
                         commandNum = -1;
                         break;
                     }
